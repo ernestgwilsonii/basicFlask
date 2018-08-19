@@ -4,7 +4,7 @@
 # Goals:
 # 1.) Install the OS default Python 2x version
 # 2.) Add Python 3x support
-# 3.) Along the way, setup and "brew" (Homebrew MAC tool to simplify gettting packages)
+# 3.) Along the way, setup "brew" (Homebrew MAC tool to simplify gettting packages)
 # 4.) Use "pyenv" to peacefully have multiple Python versions on the OS
 # 5.) Use "virtualenv" to allow various kits to specify/use specific Python modules without polluting the OS
 # 6.) Use ".bash_profile" to auto-config some settings on the MAC for lazy use (see .bash_profile example)
