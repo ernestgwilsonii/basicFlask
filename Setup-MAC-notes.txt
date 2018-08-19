@@ -1,0 +1,164 @@
+# Python on MAC
+
+# First time setup notes:
+# Goals:
+# 1.) Install the OS default Python 2x version
+# 2.) Add Python 3x support
+# 3.) Along the way, setup and "brew" (Homebrew MAC tool to simplify gettting packages)
+# 4.) Use "pyenv" to peacefully have multiple Python versions on the OS
+# 5.) Use "virtualenv" to allow various kits to specify/use specific Python modules without polluting the OS
+# 6.) Use ".bash_profile" to auto-config some settings on the MAC for lazy use (see .bash_profile example)
+
+
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+brew doctor
+
+brew search pyenv
+brew install pyenv
+
+# After installation, add the following at the bottom of your profile (~/.bash_profile or ~/.zshenv)
+vi ~/.bash_profile
+*if* which pyenv > /dev/null*;* *then* eval "*$(*pyenv init -*)*"*;* *fi*
+export PYENV_ROOT=/usr/local/var/pyenv
+:wq
+
+# Restart your shell for changes to take effect
+exit
+
+
+pyenv install 2.7.10
+#pyenv uninstall 2.7.10
+pyenv install 3.7.0
+
+
+# List all the currently installed Python versions
+pyenv versions
+
+# Display the currently active Python version
+pyenv version
+
+# Set the global version of Python to be used in all shells
+pyenv global 2.7.10
+pyenv version
+pyenv global 3.7.0
+pyenv version
+
+# Set this specific local session
+pyenv shell 2.7.10
+pyenv shell
+# pyenv shell --unset
+pyenv shell 3.7.0
+pyenv version
+python -V
+
+# Displays the full path of the executable which will be invoked when a command is run
+pyenv which pydoc
+pyenv which python
+
+pyenv whence pydoc
+pyenv whence python
+
+
+
+# https://medium.com/@henriquebastos/the-definitive-guide-to-setup-my-python-workspace-628d68552e14
+
+brew install pyenv-virtualenv
+# After installation, add the following at the bottom of your profile (~/.bash_profile) by running:
+echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi\nexport PATH="~/.pyenv/bin:$PATH"' >> ~/.bash_profile
+# Then exit and restart bash
+exit
+
+
+# To enable auto-activation add to your profile:
+ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+
+
+brew install pyenv-virtualenvwrapper
+
+
+pyenv virtualenv 3.7.0 python3.7.0
+pyenv activate python3.7.0
+
+
+# List 
+pyenv virtualenvs
+
+# delete a virtualenv
+#pyenv uninstall python3.7.0
+
+
+
+
+brew install python
+# Python has been installed as
+ /usr/local/bin/python3
+
+Unversioned symlinks `python`, `python-config`, `pip` etc. pointing to
+`python3`, `python3-config`, `pip3` etc., respectively, have been installed into
+ /usr/local/opt/python/libexec/bin
+
+If you need Homebrew's Python 2.7 run
+ brew install python@2
+
+Pip, setuptools, and wheel have been installed. To update them run
+ pip3 install --upgrade pip setuptools wheel
+
+You can install Python packages with
+ pip3 install <package>
+They will install into the site-package directory
+ /usr/local/lib/python3.7/site-packages
+
+See: https://docs.brew.sh/Homebrew-and-Python
+
+python3 --version
+
+
+brew unlink python && brew link python
+
+
+
+# REF: https://docs.python-guide.org/dev/virtualenvs/
+
+pip3 install virtualenv
+
+# cd ~
+# mkdir -p ~/Documents/Code/flaskLauncher
+# cd ~/Documents/Code/flaskLauncher
+# virtualenv -p python3 ~/Documents/Code/flaskLauncher --relocatable
+# source ~/Documents/Code/flaskLauncher/bin/activate
+
+# Determine where Python 2 base is located
+python -m site --user-base
+
+# Determine where Python 3 base is located
+python3 -m site --user-base
+
+# Add "/bin" to the end of the Python 3 base to add it's bin to the path
+#vi ~/.bash_profile
+#export PATH=$PATH:/Users/ernii/Library/Python/3.7/bin
+#:wq!
+source ~/.bash_profile 
+
+# pipenv should now be available in the path
+pipenv --version
+
+# Install "requests" module
+pipenv install requests
+
+
+
+# Create an example.py and verify that the requests module is found/works
+vi example.py
+import requests
+response = requests.get('https://httpbin.org/ip')
+print('Your IP is {0}'.format(response.json()['origin']))
+:wq!
+
+# Run the example
+pipenv run python example.py 
+
+# Run the example from inside pipenv
+pipenv shell
+python --version # Should now say 3x
+python example.py
