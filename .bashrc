@@ -32,3 +32,10 @@ python --version
 if [ -f requirements.txt ]; then
     pip install -r requirements.txt
 fi
+
+echo " "
+echo "####################"
+echo "# See .env file"
+echo "# Launch Flask:"
+echo "python -m flask run"
+echo " "
